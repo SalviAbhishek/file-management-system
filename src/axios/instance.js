@@ -1,7 +1,8 @@
 import axios from "axios";
+import { constants } from "../Utils";
 
 const AxiosInst = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: constants.serverUrl,
 });
 
 export const setAuthorizationToken = (token) => {

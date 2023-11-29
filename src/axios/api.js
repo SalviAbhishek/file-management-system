@@ -17,7 +17,9 @@ API.verifyOtp = async (identity, otp) =>
 API.getUserDetails = async () => AxiosInst.get("user");
 
 /* --------------- files apis starts --------------------------- */
-API.getFiles = async () => AxiosInst.get("files/list");
+API.getFiles = async (page) =>
+  AxiosInst.get(`files/list?page=${page ? page : 1}&limit=8`);
 API.deleteFile = async (id) => AxiosInst.delete(`files/delete/${id}`);
+API.uploadFile = async (data) => AxiosInst.post(`files/upload`, data);
 
 export default API;

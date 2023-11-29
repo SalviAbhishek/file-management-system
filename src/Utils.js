@@ -14,3 +14,8 @@ export const notifyTypes = {
   info: toast.TYPE.INFO,
   default: toast.TYPE.DEFAULT,
 };
+
+export const constants = {
+  serverUrl: "http://localhost:5000/",
+  // serverUrl: "https://file-management-server.onrender.com/",
+};

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -41,6 +41,16 @@ function Login() {
         });
     },
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let token = await localStorage.getItem("token");
+      if (token) {
+        navigate("/");
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="min-vh-100 d-flex flex-row align-items-center">
       <div className="container">
@@ -95,15 +105,6 @@ function Login() {
                   <div className="row">
                     <div className="col-md-6">
                       <Link to="/register">Register Now</Link>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row-reverse",
-                      }}
-                      className="col-md-6"
-                    >
-                      <Link to="/register">Forgot Password?</Link>
                     </div>
                   </div>
                 </form>
