@@ -16,6 +16,6 @@ export const notifyTypes = {
 };
 
 export const constants = {
-  serverUrl: "http://localhost:5000/",
-  // serverUrl: "https://file-management-server.onrender.com/",
+  // serverUrl: "http://localhost:5000/",
+  serverUrl: "https://file-management-server.onrender.com/",
 };

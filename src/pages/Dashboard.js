@@ -5,7 +5,7 @@ import { setAuthorizationToken } from "../axios/instance";
 import { useDispatch } from "react-redux";
 import { login, logout } from "../redux/actions/auth";
 import { fetchFiles, deleteFile } from "../redux/actions/files";
-import { constants } from "../Utils";
+import { constants, notify, notifyTypes } from "../Utils";
 import { Link, useNavigate } from "react-router-dom";
 import FileThumbnail from "../components/FileThumnail";
 import Header from "../components/Header";
@@ -64,20 +64,35 @@ function Dashboard() {
     await API.deleteFile(id)
       .then((response) => {
         dispatch(deleteFile(id));
+        notify(notifyTypes?.success, response?.data?.message);
       })
       .catch((err) => {});
   };
 
   const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    await API.uploadFile(formData)
-      .then((response) => {
-        getAllFiles(1);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (e.target.files[0]) {
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+      await API.uploadFile(formData)
+        .then(async (response) => {
+          notify(notifyTypes?.success, response?.data?.message);
+          await API.getFiles(page)
+            .then((response) => {
+              setPage(1);
+              setTotalPages(response?.data?.data?.totalPages);
+              dispatch(fetchFiles([...response?.data?.data?.docs]));
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              console.log(err);
+              setIsLoading(false);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          notify(notifyTypes?.error, err?.response?.data?.message);
+        });
+    }
   };
 
   return (
